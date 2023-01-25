@@ -1,0 +1,6 @@
+temp_code/
+temp_data/
+clean_data/
+raw_data/
+!stablecoins_raw_2022-06-16.csv
+.venv
