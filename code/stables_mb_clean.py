@@ -4,7 +4,7 @@ import numpy as np
 from datetime import date
 
 # specify the start and end dates in window "w"
-w = pd.date_range(start='11/28/2017', end='9/30/2022')
+w = pd.date_range(start='11/28/2017', end='12/31/2022')
    
 # loop over days in window "w"
 for i in w:
@@ -82,10 +82,6 @@ for i in w:
         df['net_issuance'] = df['amount_usd']
         df['net_issuance'].mask(df['action'] == 'burn',(df['amount_usd']*-1), inplace=True)
 
-        # create running total var, grouped by stablecoin 
-        df.sort_values(by='block_timestamp', inplace=True)
-        df['csum'] = df.groupby(['stablecoin'])['net_issuance'].cumsum()
-
         # parse date/time vars  
         df['hour'] = pd.DatetimeIndex(df['block_timestamp']).hour
         df['day'] = pd.DatetimeIndex(df['block_timestamp']).day
@@ -97,7 +93,7 @@ for i in w:
 
         # redorder/drop columns
         df = df[['log_index','transaction_index','transaction_hash','block_number','block_timestamp','date','hour','day','weekday','month','year','miner','block_size','gas_used',
-                'gas_limit','topic_0','topic_1','topic_2','contract_address','stablecoin','action','amount_usd','net_issuance','csum']]
+                'gas_limit','topic_0','topic_1','topic_2','contract_address','stablecoin','action','amount_usd','net_issuance']]
 
         filename_temp = "stablecoins_temp_" + str(extract_date) + ".csv"
         os.chdir('/Users/brendan/dev/onchain_data_blog/temp_data')
